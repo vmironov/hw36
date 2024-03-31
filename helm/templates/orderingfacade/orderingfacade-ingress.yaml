@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:           
+  name: ordering-facade-ingress
+  namespace: {{ .Values.namespace }}
+  labels:
+    name: ordering
+spec:
+  ingressClassName: nginx
+  rules:
+#  - host: auth-service.hw16-in-helm.svc.cluster.local
+  - host: arch.homework
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/orderingService/order"
+        backend:
+          service:
+            name: ordering-facade-service
+            port:
+              number: 80
+  
+
+
+
+
+

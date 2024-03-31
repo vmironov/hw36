@@ -1,0 +1,54 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: init-db-job
+  namespace: {{ .Values.namespace }}
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": hook-succeeded  
+spec:
+#  ttlSecondsAfterFinished: 10000
+#  activeDeadlineSeconds: 10000
+  backoffLimit: 30
+  template:
+    metadata:
+      name:  init-db
+      labels:
+        app: init-postgresdb
+    spec:
+      containers:
+      - image: postgres
+        name: init-db
+        command: [ "bin/sh", "-c", "psql -U $PGUSERNAME -d $POSTGRES_DB -p $DB_PORT -h $DB_HOST -a -f /sql/init-file.sql" ]
+#        command: ["sleep", "10000"]
+        volumeMounts:
+        - name: init-file
+          mountPath: /sql
+        env:
+          - name: DB_HOST
+            value: $(POSTGRESDB_SERVICE_SERVICE_HOST)
+          - name: DB_PORT
+            value: $(POSTGRESDB_SERVICE_SERVICE_PORT)
+          - name: PGPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: secret-db
+                key: password
+          - name: PGUSERNAME
+            valueFrom:
+              secretKeyRef:
+                name: secret-db
+                key: username     
+        envFrom:
+          - configMapRef:
+              name: config-map-db-options                           
+       
+      volumes:
+        - name: init-file
+          configMap:
+          # Provide the name of the ConfigMap containing the files you want
+          # to add to the container
+             name: init-file
+      restartPolicy: OnFailure
+

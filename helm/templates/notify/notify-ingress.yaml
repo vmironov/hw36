@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:           
+  name: notify-ingress
+  namespace: {{ .Values.namespace }}
+  labels:
+    name: notify
+spec:
+  ingressClassName: nginx
+  rules:
+#  - host: auth-service.hw16-in-helm.svc.cluster.local
+  - host: arch.homework
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/notifyService/notify"
+        backend:
+          service:
+            name: notify-service
+            port:
+              number: 80
+  
+
+
+
+
+

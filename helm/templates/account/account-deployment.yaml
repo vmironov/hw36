@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: account-deployment
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.webService.replicaCount }}
+  selector:
+    matchLabels:
+      app: account-app
+  template:
+    metadata:
+      labels:
+        app: account-app
+    spec:
+      containers:
+      - name: my-image31
+        image: viacheslavmironov/accountservice:v2
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        ports:
+        - containerPort: 80
+        envFrom:
+          - configMapRef:
+              name: config-map-db-options
+        env:
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: secret-db
+                key: password
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: secret-db
+                key: username     
+
+

@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:           
+  name: charge-ingress
+  namespace: {{ .Values.namespace }}
+  labels:
+    name: charge
+spec:
+  ingressClassName: nginx
+  rules:
+#  - host: auth-service.hw16-in-helm.svc.cluster.local
+  - host: arch.homework
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/chargeService/charge"
+        backend:
+          service:
+            name: charge-service
+            port:
+              number: 80
+  
+
+
+
+
+

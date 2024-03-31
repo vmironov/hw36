@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:           
+  name: payment-ingress
+  namespace: {{ .Values.namespace }}
+  labels:
+    name: payment
+spec:
+  ingressClassName: nginx
+  rules:
+#  - host: auth-service.hw16-in-helm.svc.cluster.local
+  - host: arch.homework
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/paymentService/payment"
+        backend:
+          service:
+            name: payment-service
+            port:
+              number: 80
+  
+
+
+
+
+

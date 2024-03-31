@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ordering-facade-service
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: ordering-facade-app
+  ports:
+  - port: 80
+    targetPort: 5000
+

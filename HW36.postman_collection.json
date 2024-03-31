@@ -1,0 +1,426 @@
+{
+	"info": {
+		"_postman_id": "af8da8df-7398-486b-9bfd-3db35717cadc",
+		"name": "HW36",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28838428"
+	},
+	"item": [
+		{
+			"name": "1. Создаем пользователя (лицевой счёт)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(pm.response.json())"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "login",
+							"value": "user1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://{{host}}/accountService/account",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"accountService",
+						"account"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2. Проверяем баланс (равен 0)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(pm.response.json())"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "accountId",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://{{host}}/accountService/account",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"accountService",
+						"account"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3. Создаем Платёж на 500руб",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(pm.response.json())"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "accountId",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "summ",
+							"value": "500",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://{{host}}/paymentService/payment",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"paymentService",
+						"payment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4. Проверяем баланс (равен 500)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(pm.response.json())"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "accountId",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://{{host}}/accountService/account",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"accountService",
+						"account"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5. Создаём заказ на сумму 500руб.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(pm.response.json());",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "accountId",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "summ",
+							"value": "500",
+							"type": "text"
+						},
+						{
+							"key": "uuid",
+							"value": "550e8400-e29b-41d4-a716-446655440000",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://{{host}}/orderingService/order",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"orderingService",
+						"order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6. Проверяем баланс (равен 0 руб)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(pm.response.json())"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "accountId",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://{{host}}/accountService/account",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"accountService",
+						"account"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7. Повторяем запрос на создание заказа на сумму 500руб - успешно!",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(pm.response.json());",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "accountId",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "summ",
+							"value": "500",
+							"type": "text"
+						},
+						{
+							"key": "uuid",
+							"value": "550e8400-e29b-41d4-a716-446655440000",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://{{host}}/orderingService/order",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"orderingService",
+						"order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "8. Проверяем баланс (равен 0 руб, не изменился)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(pm.response.json())"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "accountId",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://{{host}}/accountService/account",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"accountService",
+						"account"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "9. Делаем запрос на создание заказа на сумму 500руб с другим UUID - неуспешно!",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(pm.response.json());",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "accountId",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "summ",
+							"value": "500",
+							"type": "text"
+						},
+						{
+							"key": "uuid",
+							"value": "110e8400-e29b-41d4-a716-446655440000",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://{{host}}/orderingService/order",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"orderingService",
+						"order"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "arch.homework"
+		}
+	]
+}

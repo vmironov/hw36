@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notify-consumer-deployment
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.webService.replicaCount }}
+  selector:
+    matchLabels:
+      app: notify-consumer-app
+  template:
+    metadata:
+      labels:
+        app: notify-consumer-app
+    spec:
+      containers:
+      - name: my-image3
+        image: viacheslavmironov/notifyconsumerservice:hw36v6
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        ports:
+        - containerPort: 80
+        envFrom:
+          - configMapRef:
+              name: config-map-db-options
+        env:
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: secret-db
+                key: password
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: secret-db
+                key: username     
+
+

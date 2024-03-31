@@ -1,0 +1,66 @@
+apiVersion: v1
+# Kind for kubernets ConfigMap
+kind: ConfigMap
+metadata:
+  # Name your ConfigMap
+  name: init-file
+  namespace: {{ .Values.namespace }}  
+  labels:
+    app: postgresdb
+data:
+  init-file.sql: |     
+    CREATE TABLE accounts (                   
+      account_id serial NOT NULL primary key,
+      login varchar(100) null,
+      cre_date timestamp not null
+     );     
+
+    CREATE TABLE payments (                   
+      payment_id serial NOT NULL primary key,
+      cre_date timestamp not null,
+      account_id INT, 
+      summ integer not null,
+      CONSTRAINT fk_account
+         FOREIGN KEY(account_id) 
+            REFERENCES accounts(account_id)
+     );     
+     
+
+    CREATE TABLE emails (                   
+      email_id serial NOT NULL primary key,
+      cre_date timestamp not null,
+      account_id INT, 
+      text text null,
+      CONSTRAINT fk_account
+         FOREIGN KEY(account_id) 
+            REFERENCES accounts(account_id)
+     );
+    CREATE TABLE orders (                   
+      order_id serial NOT NULL primary key,
+      cre_date timestamp not null,
+      account_id INT, 
+      summ integer not null,
+      CONSTRAINT fk_account
+         FOREIGN KEY(account_id) 
+            REFERENCES accounts(account_id)
+     );
+     
+    CREATE TABLE charges (                   
+      charge_id serial NOT NULL primary key,
+      cre_date timestamp not null,
+      account_id INT, 
+      summ integer not null,
+      order_id INT,
+      CONSTRAINT fk_account
+         FOREIGN KEY(account_id) 
+            REFERENCES accounts(account_id),
+      CONSTRAINT fk_order
+         FOREIGN KEY(order_id) 
+            REFERENCES orders(order_id)
+     );             
+    CREATE TABLE cache (                   
+      cache_id serial NOT NULL primary key,
+      cre_date timestamp not null,
+      hash varchar(100) not null, 
+      response text null
+     );

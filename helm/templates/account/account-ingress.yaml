@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:           
+  name: account-ingress
+  namespace: {{ .Values.namespace }}
+  labels:
+    name: account
+spec:
+  ingressClassName: nginx
+  rules:
+#  - host: auth-service.hw16-in-helm.svc.cluster.local
+  - host: arch.homework
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/accountService/account"
+        backend:
+          service:
+            name: account-service
+            port:
+              number: 80
+  
+
+
+
+
+
